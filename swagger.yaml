@@ -1,120 +1,297 @@
 swagger: '2.0'
 info:
-  version: '1.0'
-  title: "nqdev-api"
-  description: Polls is a simple API allowing consumers to view polls and vote in them.
+  title: LeadCRM RestService
+  description: >-
+    An ASP.NET Core Web API for managing ToDo items This API version has been
+    deprecated. Please use one of the new APIs available from the explorer.
+  termsOfService: 'https://blogs.nhquydev.net/terms?v=1.0'
+  contact:
+    name: Example Contact
+    url: 'https://blogs.nhquydev.net/contact?v=1.0'
   license:
-    name: MIT
-    url: https://github.com/apiaryio/polls-api/blob/master/LICENSE
-host: polls.apiblueprint.org
-basePath: /
-schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
+    name: Example License
+    url: 'https://blogs.nhquydev.net/license?v=1.0'
+  version: '1.0'
 paths:
-  /questions:
-    x-summary: Questions Collection
+  /Develop/v1/Index:
     get:
-      summary: List All Questions
-      responses:
-        200:
-          description: Successful Response
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Question'
-          examples:
-            application/json:
-              - question: Favourite programming language?
-                published_at: '2015-08-05T08:40:51.620Z'
-                choices:
-                  - choice: Swift
-                    votes: 2048
-                  - choice: Python
-                    votes: 1024
-                  - choice: Objective-C
-                    votes: 512
-                  - choice: Ruby
-                    votes: 256
-    post:
-      description: >-
-        You may create your own question using this action. It takes a JSON
-        object containing a question and a collection of answers in the
-        form of choices.
-      summary: Create a New Question
+      tags:
+        - Develop
+      produces:
+        - application/json
       parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/QuestionRequest'
+        - in: query
+          name: discontinuedOnly
+          type: boolean
+          default: false
       responses:
-        201:
-          description: ''
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
           schema:
-            $ref: '#/definitions/Question'
-          examples:
-            application/json:
-                question: Favourite programming language?
-                published_at: '2015-08-05T08:40:51.620Z'
-                choices:
-                  - choice: Swift
-                    votes: 0
-                  - choice: Python
-                    votes: 0
-                  - choice: Objective-C
-                    votes: 0
-                  - choice: Ruby
-                    votes: 0
-definitions:
-  Question:
-    title: Question
-    type: object
-    properties:
-      question:
-        type: string
-      published_at:
-        type: string
-      choices:
-        type: array
-        items:
-          $ref: '#/definitions/Choice'
-    required:
-      - question
-      - published_at
-      - choices
-  Choice:
-    title: Choice
-    type: object
-    properties:
-      votes:
-        type: integer
-        format: int32
-      choice:
-        type: string
-    required:
-      - votes
-      - choice
-  QuestionRequest:
-    title: Question Request
-    type: object
-    properties:
-      question:
-        type: string
-      choices:
-        type: array
-        items:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  '/Develop/v1/GetById/{id}':
+    get:
+      tags:
+        - Develop
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  '/Develop/v1/get-by-id/{id}':
+    get:
+      tags:
+        - Develop
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
           type: string
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  /Develop/v1/MongoStatus:
+    get:
+      tags:
+        - Develop
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  /Develop:
+    get:
+      tags:
+        - Develop
+      operationId: BaseAPI
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: x-api-version
+          type: string
+        - in: query
+          name: api-version
+          type: string
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  /Oauth/v1/Authorize:
+    get:
+      tags:
+        - Oauth
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  /Oauth/v1/Login:
+    post:
+      tags:
+        - Oauth
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/LoginRequestModel'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/LoginResponseModel'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+  /v1/Profile:
+    get:
+      tags:
+        - User
+      operationId: User
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ProblemDetails'
+        '500':
+          description: Server Error
+definitions:
+  LoginRequestModel:
     required:
-      - question
-      - choices
-    example:
-      question: Favourite programming language?
-      choices:
-        - Swift
-        - Python
-        - Objective-C
-        - Ruby
+      - email
+      - password
+    type: object
+    properties:
+      email:
+        format: email
+        minLength: 1
+        type: string
+      password:
+        minLength: 1
+        type: string
+  LoginResponseModel:
+    type: object
+    properties:
+      statusCode:
+        $ref: '#/definitions/NqdevStatusCode'
+      errorMessage:
+        type: string
+      expiration:
+        format: date-time
+        type: string
+      token:
+        type: string
+  NqdevStatusCode:
+    enum:
+      - processing
+      - ok
+      - unauthorized
+      - notFound
+      - internalServerError
+    type: string
+  ProblemDetails:
+    type: object
+    properties:
+      type:
+        type: string
+      title:
+        type: string
+      status:
+        format: int32
+        type: integer
+      detail:
+        type: string
+      instance:
+        type: string
+    additionalProperties: {}
